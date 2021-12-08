@@ -2,18 +2,60 @@ using FluentAssertions;
 
 using Xunit;
 
-namespace KataFizzBuzz
+namespace KataFizzBuzz.Durch3Teilbar
 {
-  public class Wenn_eine_durch_3_teilbare_Zahl_gemappt_wird
+  public class Wenn_eine_durch_3_teilbare_Zahl_angefragt_wird
   {
     const int Durch3Teilbar = 3;
     readonly int _eingabe;
-    readonly string _ausgabe;
+    readonly bool _kannDamitUmgehen;
 
-    public Wenn_eine_durch_3_teilbare_Zahl_gemappt_wird()
+    public Wenn_eine_durch_3_teilbare_Zahl_angefragt_wird()
     {
       var mapper = new ZahlZuFizzMapper();
       _eingabe = Durch3Teilbar;
+
+      _kannDamitUmgehen = mapper.KannstDuDamitUmgehen(_eingabe);
+    }
+
+    [Fact]
+    public void dann_ist_die_Antwort_Ja()
+    {
+      _kannDamitUmgehen.Should().BeTrue();
+    }
+  }
+
+  public class Wenn_eine_nicht_durch_3_teilbare_Zahl_angefragt_wird
+  {
+    const int NichtDurch3Teilbar = 1;
+    readonly int _eingabe;
+    readonly bool _kannDamitUmgehen;
+
+    public Wenn_eine_nicht_durch_3_teilbare_Zahl_angefragt_wird()
+    {
+      var mapper = new ZahlZuFizzMapper();
+      _eingabe = NichtDurch3Teilbar;
+
+      _kannDamitUmgehen = mapper.KannstDuDamitUmgehen(_eingabe);
+    }
+
+    [Fact]
+    public void dann_ist_die_Antwort_Nein()
+    {
+      _kannDamitUmgehen.Should().BeFalse();
+    }
+  }
+
+  public class Wenn_eine_Zahl_gemappt_wird
+  {
+    const int Egal = 1;
+    readonly int _eingabe;
+    readonly string _ausgabe;
+
+    public Wenn_eine_Zahl_gemappt_wird()
+    {
+      var mapper = new ZahlZuFizzMapper();
+      _eingabe = Egal;
 
       _ausgabe = mapper.Übersetzen(_eingabe);
     }
@@ -25,39 +67,15 @@ namespace KataFizzBuzz
     }
   }
 
-  public class Wenn_eine_nicht_durch_3_teilbare_Zahl_gemappt_wird
-  {
-    const int NichtDurch3Teilbar = 1;
-    readonly int _eingabe;
-    readonly string _ausgabe;
-
-    public Wenn_eine_nicht_durch_3_teilbare_Zahl_gemappt_wird()
-    {
-      var mapper = new ZahlZuFizzMapper();
-      _eingabe = NichtDurch3Teilbar;
-
-      _ausgabe = mapper.Übersetzen(_eingabe);
-    }
-
-    [Fact]
-    public void kommt_die_Zahl_als_String_zurück()
-    {
-      _ausgabe.Should().Be(_eingabe.ToString());
-    }
-  }
-
   public class ZahlZuFizzMapper
   {
-    // 3 -> Fizz
-    // 1 -> null (false)
-    public string Übersetzen(int eingabe)
-    {
-      if (eingabe % 3 == 0)
-      {
-        return "Fizz";
-      }
+    // 3 -> true
+    // 1 -> false
+    public bool KannstDuDamitUmgehen(int eingabe)
+      => eingabe % 3 == 0;
 
-      return eingabe.ToString();
-    }
+    // irgenwas -> Fizz
+    public string Übersetzen(int eingabe)
+      => "Fizz";
   }
 }
