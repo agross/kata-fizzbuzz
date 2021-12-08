@@ -2,8 +2,29 @@ using FluentAssertions;
 
 using Xunit;
 
-namespace KataFizzBuzz
+namespace KataFizzBuzz.ZahlZuZahl
 {
+  public class Wenn_irgendeine_Zahl_angefragt_wird
+  {
+    const int Egal = 1;
+    readonly int _eingabe;
+    readonly bool _kannDamitUmgehen;
+
+    public Wenn_irgendeine_Zahl_angefragt_wird()
+    {
+      var mapper = new ZahlZuZahlMapper();
+      _eingabe = Egal;
+
+      _kannDamitUmgehen = mapper.KannstDuDamitUmgehen(_eingabe);
+    }
+
+    [Fact]
+    public void dann_ist_die_Antwort_Ja()
+    {
+      _kannDamitUmgehen.Should().BeTrue();
+    }
+  }
+
   public class Wenn_eine_Zahl_gemappt_wird
   {
     const int Egal = 42;
@@ -25,8 +46,11 @@ namespace KataFizzBuzz
     }
   }
 
-  public class ZahlZuZahlMapper
+  public class ZahlZuZahlMapper : IMapper
   {
+    public bool KannstDuDamitUmgehen(int eingabe)
+      => true;
+
     public string Übersetzen(int eingabe)
       => eingabe.ToString();
   }

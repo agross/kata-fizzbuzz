@@ -67,7 +67,7 @@ namespace KataFizzBuzz.Durch3Teilbar
     }
   }
 
-  public class ZahlZuFizzMapper
+  public class ZahlZuFizzMapper : IMapper
   {
     // 3 -> true
     // 1 -> false
