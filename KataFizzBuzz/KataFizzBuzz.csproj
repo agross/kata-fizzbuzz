@@ -73,6 +73,7 @@
         <Compile Include="Program.cs" />
         <Compile Include="Properties\AssemblyInfo.cs" />
         <Compile Include="ZahlengeneratorTests.cs" />
+        <Compile Include="ZahlZuBuzzMapperTests.cs" />
         <Compile Include="ZahlZuFizzMapperTests.cs" />
         <Compile Include="ZahlZuZahlMapperTests.cs" />
     </ItemGroup>
