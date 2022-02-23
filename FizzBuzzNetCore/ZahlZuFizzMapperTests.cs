@@ -46,13 +46,13 @@ namespace KataFizzBuzz.Durch3Teilbar
     }
   }
 
-  public class Wenn_eine_Zahl_gemappt_wird
+  public class Wenn_eine_durch_3_Zahl_gemappt_wird
   {
     const int Egal = 1;
     readonly int _eingabe;
     readonly string _ausgabe;
 
-    public Wenn_eine_Zahl_gemappt_wird()
+    public Wenn_eine_durch_3_Zahl_gemappt_wird()
     {
       var mapper = new ZahlZuFizzMapper();
       _eingabe = Egal;
@@ -74,7 +74,7 @@ namespace KataFizzBuzz.Durch3Teilbar
     public bool KannstDuDamitUmgehen(int eingabe)
       => eingabe % 3 == 0;
 
-    // irgenwas -> Fizz
+    // irgendwas -> Fizz
     public string Übersetzen(int eingabe)
       => "Fizz";
   }
