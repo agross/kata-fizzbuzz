@@ -1,3 +1,5 @@
+using FakeItEasy;
+
 using FluentAssertions;
 
 using KataFizzBuzz;
@@ -8,7 +10,7 @@ namespace FizzBuzzNetCore;
 
 public class Wenn_eine_Zahl_übersetzt_wird
 {
-  readonly WirdGenutzt _wirdGenutzt;
+  readonly IMapper _wirdGenutzt;
   WirdNichtGenutzt _wirdNichtGenutzt1;
   WirdNichtGenutzt _wirdNichtGenutzt2;
   readonly string _ausgabe;
@@ -45,18 +47,26 @@ public class Wenn_eine_Zahl_übersetzt_wird
     {
       IchWurdeAufgerufen = true;
 
-      return "ich wurde genutzt";
+      return AusgabeFürEgal;
     }
   }
 
   const int Egal = 1;
+  const string AusgabeFürEgal = "ich wurde genutzt";
 
   public Wenn_eine_Zahl_übersetzt_wird()
   {
     // Arrange
     _wirdNichtGenutzt1 = new WirdNichtGenutzt();
     _wirdNichtGenutzt2 = new WirdNichtGenutzt();
-    _wirdGenutzt = new WirdGenutzt();
+
+    _wirdGenutzt = A.Fake<IMapper>();
+    A.CallTo(() => _wirdGenutzt.KannstDuDamitUmgehen(Egal))
+     .Returns(true);
+
+    A.CallTo(() => _wirdGenutzt.Übersetzen(Egal))
+     .Returns(AusgabeFürEgal);
+
 
     var mapper = new IMapper[]
     {
@@ -76,20 +86,26 @@ public class Wenn_eine_Zahl_übersetzt_wird
   void dann_sollen_Mapper_bis_zum_ersten_Treffer_gefragt_werden_ob_sie_etwas_mit_der_Eingabe_anfangen_können()
   {
     _wirdNichtGenutzt1.IchWurdeGefragt.Should().BeTrue();
-    _wirdGenutzt.IchWurdeGefragt.Should().BeTrue();
+
+    // _wirdGenutzt.IchWurdeGefragt.Should().BeTrue();
+    A.CallTo(() => _wirdGenutzt.KannstDuDamitUmgehen(Egal))
+     .MustHaveHappened();
+
     _wirdNichtGenutzt2.IchWurdeGefragt.Should().BeFalse();
   }
 
   [Fact]
   void dann_der_erste_Mapper_der_etwas_mit_der_Zahl_anfangen_kann_genutzt_werden()
   {
-    _wirdGenutzt.IchWurdeAufgerufen.Should().BeTrue();
+    // _wirdGenutzt.IchWurdeAufgerufen.Should().BeTrue();
+    A.CallTo(() => _wirdGenutzt.Übersetzen(Egal))
+     .MustHaveHappened();
   }
 
   [Fact]
   void dann_soll_das_Ergebnis_die_Ausgabe_sein()
   {
-    _ausgabe.Should().Be("ich wurde genutzt");
+    _ausgabe.Should().Be(AusgabeFürEgal);
   }
 }
 

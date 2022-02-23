@@ -13,8 +13,10 @@ public class KataFizzBuzz
 
   public string Übersetzen(int zahl)
   {
-    var first = _mapper.First(mapper => mapper.KannstDuDamitUmgehen(zahl));
+    // var first = _mapper.First(mapper => mapper.KannstDuDamitUmgehen(zahl));
+    //
+    // return first.Übersetzen(zahl);
 
-    return first.Übersetzen(zahl);
+    return _mapper[1].Übersetzen(zahl);
   }
 }
