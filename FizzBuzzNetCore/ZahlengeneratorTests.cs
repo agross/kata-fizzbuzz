@@ -43,10 +43,4 @@ namespace KataFizzBuzz
       _zahlen.Should().HaveCount(100);
     }
   }
-
-  public class ZahlenGenerator
-  {
-    public IEnumerable<int> GibMirDieZahlen()
-      => Enumerable.Range(1, 100);
-  }
 }
